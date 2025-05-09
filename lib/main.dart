@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/todo_provider.dart';
 import 'screens/home_screen.dart';
+import 'screens/settings_screen.dart';
+import 'screens/schedule_screen.dart';
 
 void main() {
   runApp(
@@ -12,16 +14,58 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int _selectedIndex = 0;
+
+
+  final List<Widget> _screens = [
+    const HomeScreen(),
+    const SettingsScreen(),
+    const ScheduleScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'To-Do App',
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
-      home: const HomeScreen(),
+      title: 'noko',
+      theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: const Color.fromARGB(255, 19, 57, 226)),
+      home: Scaffold(
+        body: _screens[_selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex, 
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.schedule),
+              label: 'Schedule',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              label: 'Settings',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
