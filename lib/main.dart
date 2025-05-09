@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 import 'providers/todo_provider.dart';
 import 'screens/home_screen.dart';
 import 'screens/settings_screen.dart';
@@ -24,7 +26,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int _selectedIndex = 0;
 
-
   final List<Widget> _screens = [
     const HomeScreen(),
     const SettingsScreen(),
@@ -43,27 +44,43 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'noko',
       theme: ThemeData(
-          useMaterial3: true,
-          colorSchemeSeed: const Color.fromARGB(255, 19, 57, 226)),
+        useMaterial3: true,
+        scaffoldBackgroundColor: Colors.white, // background putih
+        colorSchemeSeed: const Color.fromARGB(255, 19, 57, 226),
+        textTheme: GoogleFonts.robotoMonoTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       home: Scaffold(
         body: _screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex, 
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              onTap: _onItemTapped,
+              selectedItemColor: Colors.white,
+              unselectedItemColor: Colors.white70,
+              backgroundColor: const Color.fromARGB(255, 19, 57, 226),
+              type: BottomNavigationBarType.fixed,
+              elevation: 8,
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_rounded),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.schedule),
+                  label: 'Schedule',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings',
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.schedule),
-              label: 'Schedule',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              label: 'Settings',
-            ),
-          ],
+          ),
         ),
       ),
     );
