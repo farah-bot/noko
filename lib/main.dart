@@ -28,8 +28,8 @@ class _MyAppState extends State<MyApp> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const SettingsScreen(),
     const ScheduleScreen(),
+    const SettingsScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
       title: 'noko',
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: Colors.white, // background putih
+        scaffoldBackgroundColor: Colors.white,
         colorSchemeSeed: const Color.fromARGB(255, 19, 57, 226),
         textTheme: GoogleFonts.robotoMonoTextTheme(
           Theme.of(context).textTheme,
@@ -54,7 +54,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
         body: _screens[_selectedIndex],
         bottomNavigationBar: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(32.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(30),
             child: BottomNavigationBar(
@@ -65,6 +65,8 @@ class _MyAppState extends State<MyApp> {
               backgroundColor: const Color.fromARGB(255, 19, 57, 226),
               type: BottomNavigationBarType.fixed,
               elevation: 8,
+              showSelectedLabels: false,
+              showUnselectedLabels: false,
               items: const [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home_rounded),
