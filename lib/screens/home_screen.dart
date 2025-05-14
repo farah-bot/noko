@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import '../models/todo.dart';
 import '../providers/todo_provider.dart';
+import '../providers/user_provider.dart';
 import '../widgets/todo_tile.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,22 +12,41 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var todoProvider = Provider.of<TodoProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('To-Do List')),
-      body: ListView(
-        children: todoProvider.todos
-            .map((todo) => TodoTile(
-                  todo: todo,
-                  onToggleComplete: () => todoProvider.toggleComplete(todo.id),
-                  onRemove: () => todoProvider.removeTodo(todo.id),
-                  onToggleSticky: () => todoProvider.toggleSticky(todo.id),
-                ))
-            .toList(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Hello, ${userProvider.name}!',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: todoProvider.todos
+                  .map((todo) => TodoTile(
+                        todo: todo,
+                        onToggleComplete: () =>
+                            todoProvider.toggleComplete(todo.id),
+                        onRemove: () => todoProvider.removeTodo(todo.id),
+                        onToggleSticky: () =>
+                            todoProvider.toggleSticky(todo.id),
+                      ))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddDialog(context),
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: const Color.fromARGB(255, 19, 57, 226),
+        shape: const CircleBorder(),
+        elevation: 6.0,
       ),
     );
   }
@@ -44,11 +64,13 @@ class HomeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
-                controller: titleController,
-                decoration: const InputDecoration(labelText: 'Title')),
+              controller: titleController,
+              decoration: const InputDecoration(labelText: 'Title'),
+            ),
             TextField(
-                controller: descController,
-                decoration: const InputDecoration(labelText: 'Description')),
+              controller: descController,
+              decoration: const InputDecoration(labelText: 'Description'),
+            ),
             ElevatedButton(
               onPressed: () async {
                 final now = DateTime.now();
