@@ -7,12 +7,14 @@ class TodoTile extends StatelessWidget {
   final VoidCallback onToggleComplete;
   final VoidCallback onRemove;
   final VoidCallback onToggleSticky;
+  final VoidCallback onEdit;
 
   const TodoTile({
     required this.todo,
     required this.onToggleComplete,
     required this.onRemove,
     required this.onToggleSticky,
+    required this.onEdit, 
     super.key,
   });
 
@@ -37,10 +39,12 @@ class TodoTile extends StatelessWidget {
           onSelected: (value) {
             if (value == 'delete') onRemove();
             if (value == 'sticky') onToggleSticky();
+            if (value == 'edit') onEdit(); 
           },
-          itemBuilder: (context) => [
-            const PopupMenuItem(value: 'sticky', child: Text("Toggle Sticky")),
-            const PopupMenuItem(value: 'delete', child: Text("Delete")),
+          itemBuilder: (context) => const [
+            PopupMenuItem(value: 'edit', child: Text("Edit")),
+            PopupMenuItem(value: 'sticky', child: Text("Toggle Sticky")),
+            PopupMenuItem(value: 'delete', child: Text("Delete")),
           ],
         ),
       ),
